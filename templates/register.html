@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/brite/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-light" style="font-family: 'Inter', sans-serif;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fa-solid fa-building-columns me-2"></i>Banking
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold"
+                            href="{{ url_for('register') }}">Register</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('login') }}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('admin_login') }}">Admin</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4"
+                    role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert"
+                        aria-label="Close"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                    <div class="bg-primary p-5 text-center text-white">
+                        <i class="fa-solid fa-user-plus fa-4x mb-3"></i>
+                        <h2 class="fw-bold">Join Our Platform</h2>
+                        <p class="opacity-75 mb-0">Start your modern banking journey today</p>
+                    </div>
+                    <div class="card-body p-5">
+                        <form id="registerForm" method="POST" class="needs-validation" novalidate>
+                            <div class="row">
+                                <h5 class="fw-bold text-primary mb-4">Personal Details</h5>
+                                <div class="col-md-6 mb-3">
+                                    <label for="full_name" class="form-label fw-semibold">Full Name</label>
+                                    <input type="text" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="full_name" name="full_name" placeholder="E.g. John Doe" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="age" class="form-label fw-semibold">Age</label>
+                                    <input type="number" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="age" name="age" placeholder="Min 18" min="18" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label fw-semibold">Email Address</label>
+                                    <input type="email" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="email" name="email" placeholder="john@example.com" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="gender" class="form-label fw-semibold">Gender</label>
+                                    <select class="form-select bg-light border-0 px-3 py-2 shadow-none" id="gender"
+                                        name="gender" required>
+                                        <option value="" selected disabled>Choose...</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="phone" class="form-label fw-semibold">Phone Number</label>
+                                    <input type="tel" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="phone" name="phone" placeholder="10-digit number" pattern="[0-9]{10}"
+                                        required>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <h5 class="fw-bold text-primary mb-4">Banking Preferences</h5>
+                                <div class="col-md-6 mb-3">
+                                    <label for="bank_name" class="form-label fw-semibold">Bank Name</label>
+                                    <select class="form-select bg-light border-0 px-3 py-2 shadow-none" id="bank_name"
+                                        name="bank_name" required>
+                                        <option value="" selected disabled>Select Bank...</option>
+                                        {% for bank in banks %}
+                                        <option value="{{ bank.bank_name }}">{{ bank.bank_name }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="branch_name" class="form-label fw-semibold">Branch Name</label>
+                                    <select class="form-select bg-light border-0 px-3 py-2 shadow-none" id="branch_name"
+                                        name="branch_name" required>
+                                        <option value="" selected disabled>Select Branch...</option>
+                                        {% for bank in banks %}
+                                        <option value="{{ bank.branch_name }}">{{ bank.branch_name }} ({{ bank.bank_name
+                                            }})</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <h5 class="fw-bold text-primary mb-4">Account Security</h5>
+                                <div class="col-md-6 mb-3">
+                                    <label for="username" class="form-label fw-semibold">Username</label>
+                                    <input type="text" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="username" name="username" placeholder="Choose a username" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="password" class="form-label fw-semibold">Password</label>
+                                    <input type="password" class="form-control bg-light border-0 px-3 py-2 shadow-none"
+                                        id="password" name="password" placeholder="Choose a password" required>
+                                </div>
+                            </div>
+
+                            <div class="row mt-4">
+                                <h5 class="fw-bold text-primary mb-4">Biometric Enrollment</h5>
+                                <div class="col-md-12 mb-3">
+                                    <div class="card border-0 bg-light rounded-4 overflow-hidden">
+                                        <div class="card-body p-0 position-relative"
+                                            style="background: #000; aspect-ratio: 4/3;">
+                                            <video id="preview" autoplay muted playsinline class="w-100 h-100"
+                                                style="object-fit: cover; transform: scaleX(-1);"></video>
+                                            <div id="videoPlaceholder"
+                                                class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-white opacity-50">
+                                                <i class="fa-solid fa-camera fa-3x mb-2"></i>
+                                                <p class="small fw-bold">CAMERA INACTIVE</p>
+                                            </div>
+                                            <div id="recBadge"
+                                                class="position-absolute top-0 start-0 m-3 badge bg-danger d-none align-items-center gap-2">
+                                                <div class="rounded-circle bg-white"
+                                                    style="width: 8px; height: 8px; animation: pulse 1s infinite;">
+                                                </div> REC
+                                            </div>
+                                            <div id="timer"
+                                                class="position-absolute bottom-0 end-0 m-3 text-white fw-bold d-none"
+                                                style="text-shadow: 0 0 10px rgba(0,0,0,0.5);">0:00</div>
+                                        </div>
+                                        <div class="card-footer bg-white border-0 p-3">
+                                            <div class="row g-2">
+                                                <div class="col-6">
+                                                    <button type="button" id="btnStart"
+                                                        class="btn btn-outline-primary w-100 fw-bold rounded-pill">
+                                                        <i class="fa-solid fa-play me-2"></i>Start Recording
+                                                    </button>
+                                                </div>
+                                                <div class="col-6">
+                                                    <button type="button" id="btnStop"
+                                                        class="btn btn-outline-danger w-100 fw-bold rounded-pill"
+                                                        disabled>
+                                                        <i class="fa-solid fa-stop me-2"></i>Stop
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div id="recordingStatus"
+                                                class="mt-2 text-center small text-muted fw-semibold">
+                                                Awaiting 5-second recording...
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="has_video" id="hasVideo" value="false">
+                                </div>
+                            </div>
+
+                            <div class="d-grid mt-5">
+                                <button type="submit" id="submitBtn"
+                                    class="btn btn-primary btn-lg rounded-pill fw-bold shadow">Create My
+                                    Account</button>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="text-muted small">Already member? <a href="{{ url_for('login') }}"
+                                    class="text-primary fw-bold text-decoration-none">Login Here</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        @keyframes pulse {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container text-center">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-building-columns me-2"></i>Banking</h5>
+            <p class="opacity-50 small mb-0">&copy; 2026 Banking App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let mediaRecorder, stream, chunks = [], timerInterval, seconds = 0;
+        let recordedBlob = null;
+
+        const preview = document.getElementById('preview');
+        const placeholder = document.getElementById('videoPlaceholder');
+        const btnStart = document.getElementById('btnStart');
+        const btnStop = document.getElementById('btnStop');
+        const submitBtn = document.getElementById('submitBtn');
+        const recBadge = document.getElementById('recBadge');
+        const timerEl = document.getElementById('timer');
+        const statusEl = document.getElementById('recordingStatus');
+        const registerForm = document.getElementById('registerForm');
+
+        function fmtTime(s) {
+            return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+        }
+
+        btnStart.addEventListener('click', async () => {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                preview.srcObject = stream;
+                placeholder.classList.add('d-none');
+
+                chunks = [];
+                const mimeType = MediaRecorder.isTypeSupported('video/mp4') ? 'video/mp4' : 'video/webm;codecs=vp8,opus';
+                mediaRecorder = new MediaRecorder(stream, { mimeType });
+
+                mediaRecorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+                mediaRecorder.onstop = () => {
+                    recordedBlob = new Blob(chunks, { type: mimeType });
+                    statusEl.textContent = `Recording ready — Ready to Register`;
+                    statusEl.classList.replace('text-muted', 'text-success');
+                };
+
+                mediaRecorder.start();
+                btnStart.disabled = true;
+                btnStop.disabled = false;
+                recBadge.classList.replace('d-none', 'd-flex');
+                timerEl.classList.remove('d-none');
+
+                seconds = 0;
+                timerInterval = setInterval(() => {
+                    seconds++;
+                    timerEl.textContent = fmtTime(seconds);
+                    if (seconds >= 5) {
+                        statusEl.textContent = "Recommended length reached. You can stop now.";
+                    }
+                }, 1000);
+
+                statusEl.textContent = "Recording in progress... (At least 5s)";
+            } catch (e) {
+                statusEl.textContent = "Camera error: " + e.message;
+                statusEl.classList.replace('text-muted', 'text-danger');
+            }
+        });
+
+        btnStop.addEventListener('click', () => {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            if (stream) stream.getTracks().forEach(t => t.stop());
+            clearInterval(timerInterval);
+            recBadge.classList.replace('d-flex', 'd-none');
+            timerEl.classList.add('d-none');
+            btnStop.disabled = true;
+            btnStart.disabled = false;
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            if (!registerForm.checkValidity()) {
+                registerForm.classList.add('was-validated');
+                return;
+            }
+
+            if (!recordedBlob) {
+                alert("Please record a biometric video (at least 5 seconds) before registering.");
+                return;
+            }
+
+            if (seconds < 5) {
+                alert("Recording must be at least 5 seconds for reliable biometric verification.");
+                return;
+            }
+
+            const formData = new FormData(registerForm);
+            formData.append('video', recordedBlob, 'registration.webm');
+
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Processing Biometrics...';
+
+            try {
+                const response = await fetch("{{ url_for('register') }}", {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    const text = await response.text();
+                    // If not redirected, it probably failed and returned the template again with flashes
+                    document.documentElement.innerHTML = text;
+                    // re-bind scripts or handle accordingly - simplest is to just let browser reload or handle flashes
+                }
+            } catch (error) {
+                alert("An error occurred during registration: " + error.message);
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Create My Account';
+            }
+        });
+    </script>
+</body>
+
+</html>

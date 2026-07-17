@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/brite/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-light" style="font-family: 'Inter', sans-serif;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm ">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fa-solid fa-building-columns me-2"></i>Banking
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link active fw-bold"
+                            href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('transfer') }}">Transfer</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('withdraw') }}">Withdraw</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('deposit') }}">Deposit</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('history') }}">History</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold text-warning" href="{{ url_for('logout') }}"><i
+                                class="fa-solid fa-right-from-bracket me-1"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4"
+            role="alert">
+            {{ message }}
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
+        <div class="row g-4">
+            <!-- Welcome Column -->
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm rounded-4 bg-white p-4 h-100">
+                    <div class="card-body">
+                        <h2 class="fw-bold text-dark mb-4">Hello, {{ user.full_name }}!</h2>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Account Holder</p>
+                                <p class="fw-bold">{{ user.full_name }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Account Number</p>
+                                <p class="fw-bold text-primary">{{ user.acc_num }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Bank & Branch</p>
+                                <p class="fw-bold">{{ user.bank_name }}, {{ user.branch_name }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted mb-1">Member ID</p>
+                                <p class="fw-bold">{{ user.user_id }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Balance Column -->
+            <div class="col-lg-4">
+                <div
+                    class="card border-0 shadow-lg rounded-4 bg-primary text-white p-4 h-100 position-relative overflow-hidden">
+                    <!-- Subtle background icon -->
+                    <i class="fa-solid fa-wallet position-absolute opacity-10"
+                        style="bottom: -20px; right: -20px; font-size: 150px;"></i>
+                    <div class="card-body">
+                        <p class="text-white text-opacity-75 mb-1">Current Balance</p>
+                        <h1 class="display-4 fw-bold mb-3">₹{{ '{:,.2f}'.format(user.balance) }}</h1>
+                        <div class="d-flex gap-2">
+                            <a href="{{ url_for('deposit') }}"
+                                class="btn btn-light btn-sm rounded-pill fw-bold px-3">Add Funds</a>
+                            <a href="{{ url_for('transfer') }}"
+                                class="btn btn-outline-light btn-sm rounded-pill fw-bold px-3">Transfer</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="col-12 mt-4">
+                <h5 class="fw-bold text-dark mb-3">Service Catalog</h5>
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <a href="{{ url_for('transfer') }}" class="text-decoration-none">
+                            <div
+                                class="card border-0 shadow-sm rounded-4 text-center p-4 hover-lift shadow-hover transition-all">
+                                <div class="card-body">
+                                    <i class="fa-solid fa-paper-plane text-primary fa-2x mb-3"></i>
+                                    <h6 class="fw-bold text-dark m-0">Send Money</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('withdraw') }}" class="text-decoration-none">
+                            <div class="card border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
+                                <div class="card-body">
+                                    <i class="fa-solid fa-money-bill-transfer text-success fa-2x mb-3"></i>
+                                    <h6 class="fw-bold text-dark m-0">Withdraw Cash</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('deposit') }}" class="text-decoration-none">
+                            <div class="card border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
+                                <div class="card-body">
+                                    <i class="fa-solid fa-piggy-bank text-info fa-2x mb-3"></i>
+                                    <h6 class="fw-bold text-dark m-0">Pocket Deposit</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-3">
+                        <a href="{{ url_for('history') }}" class="text-decoration-none">
+                            <div class="card border-0 shadow-sm rounded-4 text-center p-4 hover-lift">
+                                <div class="card-body">
+                                    <i class="fa-solid fa-clock-rotate-left text-warning fa-2x mb-3"></i>
+                                    <h6 class="fw-bold text-dark m-0">Transaction Logs</h6>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container text-center">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-building-columns me-2"></i>Banking</h5>
+            <p class="opacity-50 small mb-0">&copy; 2026 Banking App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

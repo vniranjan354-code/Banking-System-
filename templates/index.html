@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking - Future of Secure Financial Services</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/brite/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts: Inter & Montserrat -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .navbar-brand, h1, h2, h3 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.92), rgba(var(--bs-primary-rgb), 0.8)), 
+                        url('{{ url_for("static", filename="images/hero.png") }}');
+            background-size: cover;
+            background-position: center;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+        }
+
+        .card-hover {
+            transition: var(--transition);
+            border: 1px solid rgba(0,0,0,0.05) !important;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 1rem 3rem rgba(0,0,0,0.1) !important;
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .card-hover:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--bs-primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 1.5rem;
+            box-shadow: 0 4px 10px rgba(var(--bs-primary-rgb), 0.3);
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .btn-premium {
+            padding: 1rem 2.5rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold fs-4" href="{{ url_for('index') }}">
+                <i class="fa-solid fa-building-columns me-2"></i>Banking
+            </a>
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold px-3" href="{{ url_for('register') }}">Enroll</a></li>
+                    <li class="nav-item ms-lg-3"><a href="{{ url_for('login') }}" class="btn btn-light rounded-pill px-4 fw-bold shadow-sm">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-7 text-center text-lg-start">
+                    <h1 class="display-2 fw-800 mb-3 animate__animated animate__fadeInUp">Biometric-First <br><span class="text-white opacity-75">Banking Evolution</span></h1>
+                    <p class="lead mb-5 fs-4 opacity-90 animate__animated animate__fadeInUp animate__delay-1s">
+                        Securing your future with state-of-the-art Face and Voice recognition. 
+                        No passwords to remember, just your identity.
+                    </p>
+                    <div class="d-grid gap-3 d-sm-flex justify-content-center justify-content-lg-start animate__animated animate__fadeInUp animate__delay-2s">
+                        <a href="{{ url_for('register') }}" class="btn btn-light btn-lg btn-premium rounded-pill shadow">Start Enrollment</a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg btn-premium rounded-pill">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Highlights -->
+    <div class="container py-5" style="margin-top: -80px;">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="stat-card shadow-lg border-0 card-hover">
+                    <div class="feature-icon mb-4 text-primary bg-primary bg-opacity-10 rounded-circle mx-auto">
+                        <i class="fa-solid fa-face-smile fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Face Recognition</h5>
+                    <p class="text-muted mb-0">Powered by InsightFace ArcFace for high-precision facial identity verification.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card shadow-lg border-0 card-hover">
+                    <div class="feature-icon mb-4 text-success bg-success bg-opacity-10 rounded-circle mx-auto">
+                        <i class="fa-solid fa-microphone-lines fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Voice Identity</h5>
+                    <p class="text-muted mb-0">Resemblyzer ECAPA-TDNN technology ensures your voice is your unique signature.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="stat-card shadow-lg border-0 card-hover">
+                    <div class="feature-icon mb-4 text-info bg-info bg-opacity-10 rounded-circle mx-auto">
+                        <i class="fa-solid fa-user-check fa-2x"></i>
+                    </div>
+                    <h5 class="fw-bold">Liveness Detection</h5>
+                    <p class="text-muted mb-0">Advanced anti-spoofing protocols including EAR blink detection and pose analysis.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container py-5">
+        <div class="row align-items-center mb-5">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Modern Banking, <span class="text-primary">Redefined.</span></h2>
+                <p class="text-muted lead">We've combined advanced AI with seamless financial services to provide an experience that is both ultra-secure and incredibly fast.</p>
+                <ul class="list-unstyled mt-4">
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fa-solid fa-circle-check text-primary me-3"></i>
+                        <span>Instant Peer-to-Peer Transfers</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fa-solid fa-circle-check text-primary me-3"></i>
+                        <span>Real-time Email Transaction Alerts</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fa-solid fa-circle-check text-primary me-3"></i>
+                        <span>Detailed Transaction History & Analytics</span>
+                    </li>
+                    <li class="mb-3 d-flex align-items-center">
+                        <i class="fa-solid fa-circle-check text-primary me-3"></i>
+                        <span>Multi-Bank Support within One Platform</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg-5 offset-lg-1">
+                <div class="bg-primary bg-opacity-10 p-5 rounded-5 border border-primary border-opacity-10">
+                    <div class="text-center">
+                        <i class="fa-solid fa-shield-halved text-primary mb-4" style="font-size: 5rem;"></i>
+                        <h4 class="fw-bold mb-3">Enterprise-Grade Security</h4>
+                        <p class="text-muted mb-0">Your funds are protected by the same technology used by global financial institutions.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How it Works -->
+    <section id="how-it-works" class="bg-white py-5">
+        <div class="container py-5">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Experience the Seamless Journey</h2>
+                <p class="text-muted">Getting started is easier than you think.</p>
+            </div>
+            <div class="row g-5 text-center">
+                <div class="col-md-4">
+                    <div class="step-number">1</div>
+                    <h5 class="fw-bold">Enroll Biometrics</h5>
+                    <p class="text-muted px-lg-4">Register your account and record a short video for face and voice enrollment.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-number">2</div>
+                    <h5 class="fw-bold">Identity Verification</h5>
+                    <p class="text-muted px-lg-4">Our AI validates your unique traits and performs liveness checks.</p>
+                </div>
+                <div class="col-md-4">
+                    <div class="step-number">3</div>
+                    <h5 class="fw-bold">Access & Transact</h5>
+                    <p class="text-muted px-lg-4">Manage your funds, transfer instantly, and enjoy total peace of mind.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6 text-center text-md-start">
+                    <h5 class="fw-bold mb-1"><i class="fa-solid fa-building-columns me-2"></i>Banking</h5>
+                    <p class="opacity-50 small mb-0">Advanced Biometric Financial Services</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-4 mt-md-0">
+                    <a href="{{ url_for('admin_login') }}" class="text-white-50 text-decoration-none small">
+                        <i class="fa-solid fa-user-shield me-1"></i> Admin Portal
+                    </a>
+                    <p class="opacity-50 small mt-2 mb-0">&copy; 2026 Banking App. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

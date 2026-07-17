@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History - Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/brite/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-light" style="font-family: 'Inter', sans-serif;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm ">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fa-solid fa-building-columns me-2"></i>Banking
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('dashboard') }}">Dashboard</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('transfer') }}">Transfer</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('withdraw') }}">Withdraw</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="{{ url_for('deposit') }}">Deposit</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link active fw-bold" href="{{ url_for('history') }}">History</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link fw-semibold text-warning" href="{{ url_for('logout') }}"><i
+                                class="fa-solid fa-right-from-bracket me-1"></i>Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container py-5">
+        <div class="card border-0 shadow-sm rounded-4 bg-white overflow-hidden">
+            <div
+                class="bg-primary bg-opacity-10 p-4 border-bottom border-light d-flex justify-content-between align-items-center">
+                <h4 class="fw-bold text-primary mb-0"><i class="fa-solid fa-list-ul me-2"></i>Transaction Logs</h4>
+                <div class="badge bg-primary rounded-pill px-3 py-2">{{ transactions|length }} Records</div>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light">
+                            <tr>
+                                <th class="px-4 py-3 border-0">Transaction ID</th>
+                                <th class="py-3 border-0">From / To</th>
+                                <th class="py-3 border-0">Date</th>
+                                <th class="py-3 border-0">Amount</th>
+                                <th class="py-3 border-0 text-center">Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if transactions %}
+                            {% for tran in transactions %}
+                            <tr>
+                                <td class="px-4 fw-bold text-dark">{{ tran.tran_id }}</td>
+                                <td>
+                                    <div class="small text-muted">{{ tran.from_acc }}</div>
+                                    <div class="small fw-semibold text-primary"><i
+                                            class="fa-solid fa-arrow-right-long mx-2"></i> {{ tran.to_acc }}</div>
+                                </td>
+                                <td class="text-muted">{{ tran.date }}</td>
+                                <td class="fw-bold">₹{{ '{:,.2f}'.format(tran.amount) }}</td>
+                                <td class="text-center">
+                                    {% if tran.type == 'Credit' or tran.type == 'Deposit' %}
+                                    <span
+                                        class="badge bg-success-subtle text-success px-3 py-2 rounded-pill fw-bold">CREDIT</span>
+                                    {% elif tran.type == 'Debit' or tran.type == 'Withdrawal' %}
+                                    <span
+                                        class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill fw-bold">DEBIT</span>
+                                    {% else %}
+                                    <span
+                                        class="badge bg-secondary-subtle text-secondary px-3 py-2 rounded-pill fw-bold">{{
+                                        tran.type|upper }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="py-5 text-center text-muted">
+                                    <i class="fa-solid fa-folder-open fa-3x mb-3 opacity-25"></i>
+                                    <p class="mb-0">No transactions found.</p>
+                                </td>
+                            </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container text-center">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-building-columns me-2"></i>Banking</h5>
+            <p class="opacity-50 small mb-0">&copy; 2026 Banking App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Banking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.8/dist/brite/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .form-control::placeholder {
+            color: white !important;
+            opacity: 0.6;
+            /* Adjust opacity as needed */
+        }
+    </style>
+</head>
+
+<body class="bg-dark" style="font-family: 'Inter', sans-serif;">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-transparent border-bottom border-secondary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{{ url_for('index') }}">
+                <i class="fa-solid fa-building-columns me-2"></i>Banking <span
+                    class="badge bg-danger ms-2 small">Admin</span>
+            </a>
+        </div>
+    </nav>
+
+    <div class="container py-5 mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show rounded-4 border-0 shadow-sm mb-4"
+                    role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert"></button>
+                </div>
+                {% endfor %}
+                {% endif %}
+                {% endwith %}
+
+                <div class="card bg-secondary bg-opacity-10 border-secondary shadow-lg rounded-4 overflow-hidden">
+                    <div class="p-5 text-center text-white">
+                        <i class="fa-solid fa-user-shield fa-4x mb-3 text-danger"></i>
+                        <h2 class="fw-bold">Admin Portal</h2>
+                        <p class="opacity-50 mb-0">Authorized Personnel Only</p>
+                    </div>
+                    <div class="card-body p-5 pt-0">
+                        <form method="POST" class="needs-validation" novalidate>
+                            <div class="mb-4">
+                                <label for="username" class="form-label text-white opacity-75 fw-semibold">Admin
+                                    Username</label>
+                                <input type="text"
+                                    class="form-control bg-dark border-secondary text-white shadow-none px-3 py-2"
+                                    id="username" name="username" placeholder="admin" required>
+                            </div>
+                            <div class="mb-4">
+                                <label for="password" class="form-label text-white opacity-75 fw-semibold">Admin
+                                    Password</label>
+                                <input type="password"
+                                    class="form-control bg-dark border-secondary text-white shadow-none px-3 py-2"
+                                    id="password" name="password" placeholder="admin" required>
+                            </div>
+                            <div class="d-grid mt-5">
+                                <button type="submit" class="btn btn-danger btn-lg rounded-pill fw-bold shadow">System
+                                    Login</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        (function () {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+</body>
+
+</html>
