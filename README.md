@@ -9,4 +9,21 @@ A secure banking application using:
 - Anti-Spoof Detection
 - Flask
 - MySQL
+- 
+- opencv-python>=4.8.0
+numpy>=1.24.0
+scipy>=1.10.0
+insightface>=0.7.3
+onnxruntime>=1.16.0
+mediapipe>=0.10.0
+resemblyzer>=0.1.3
+librosa>=0.10.0
+soundfile>=0.12.0
+webrtcvad>=2.0.10
+moviepy>=1.0.3
+scikit-learn>=1.3.0
+tqdm>=4.65.0
+pyaudio
+mysql-connector-python
+flask
 
